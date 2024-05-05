@@ -4,8 +4,6 @@ import "../styles/baseComponent.css";
 import Body from "./body";
 import SideBar from "./sidebar";
 
-import { Outlet } from 'react-router-dom';
-
 const BaseComp = () => {
     const [movies, setMovies] = useState([]);
 

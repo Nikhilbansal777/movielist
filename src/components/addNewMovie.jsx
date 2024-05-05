@@ -5,8 +5,8 @@ const AddMovie = () => {
     const [inputFields, setFormData] = useState([
         { type: "text", id: "movie", required: true, name: "movie", labelName: "Movie Name", placeholder: "Enter Movie Name", focused: false, value: "", errMsg: "Movie name must be between 3 and 16 characters.", pattern: "^[A-Za-z0-9]{3,16}$" },
         { type: "date", id: "releaseDate", required: true, name: "releaseDate", labelName: "Release Date", placeholder: "Release Date", focused: false, value: "", errMsg: "Please enter a date from past." },
-        { type: "text", id: "actor", required: true, name: "actor", labelName: "Actor", placeholder: "Enter Actor", value: "", focused: false, errMsg: "Actor name must be between 3 and 16 characters.", pattern: "^^[A-Za-z0-9]{3,16}$" },
-        { type: "text", id: "actress", required: true, name: "actress", labelName: "Actress", placeholder: "Enter Actress", value: "", focused: false, errMsg: "Actress name must be between 3 and 16 characters.", pattern: "^^[A-Za-z0-9]{3,16}$" },
+        { type: "text", id: "actor", required: true, name: "actor", labelName: "Actor", placeholder: "Enter Actor", value: "", focused: false, errMsg: "Actor name must be between 3 and 16 characters.", pattern: "^[A-Za-z0-9]{3,16}$" },
+        { type: "text", id: "actress", required: true, name: "actress", labelName: "Actress", placeholder: "Enter Actress", value: "", focused: false, errMsg: "Actress name must be between 3 and 16 characters.", pattern: "^[A-Za-z0-9]{3,16}$" },
         { type: "select", id: "rating", required: true, name: "rating", labelName: "Rating", options: ["1", "2", "3", "4", "5"], focused: false, value: 1 }
     ]);
 
@@ -46,7 +46,7 @@ const AddMovie = () => {
         const year = date.getFullYear().toString().slice(-2);
         return `${day}-${month}-${year}`;
     };
-    
+
     const handleFocus = (e, index) => {
         setFormData(prevState => {
             const newFields = [...prevState];

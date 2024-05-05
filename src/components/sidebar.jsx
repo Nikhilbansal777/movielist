@@ -1,33 +1,19 @@
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+
 const SideBar = () => {
+    const [sideBar, setSidebar] = useState(
+        ["All", "Action", "Comedy", "Drama", "Rom-com", "Thriller", "Suspense", "Science Fiction", "Fiction"]
+    );
     return (<>
         <ul className="nav flex-column">
-            <li className="nav-item">
-                <a className="nav-link"  >All</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link active" aria-current="page">Action</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link">Comedy</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link">Drama</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link"  >Rom-com</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link"  >Thriller</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link"  >Suspense</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link"  >Science Fiction</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link"  >Fiction</a>
-            </li>
+            {sideBar.map((item, index) => {
+                return (
+                    <li key={index} className="nav-item">
+                        <NavLink className="nav-link" to={`/category/${item}`}> {item} </NavLink>
+                    </li>
+                );
+            })}
         </ul></>);
 };
 

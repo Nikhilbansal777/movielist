@@ -9,48 +9,53 @@ app.use(bodyParser.json());
 var movies = [
   {
     id: 1,
-    name: "Avengers",
-    releaseDate: "24 April 2019",
+    movieName: "Avengers",
+    releaseDate: "2019-04-24",
     actor: "Tony stark",
     category: "Action",
     actress: "Scarlett Johanson",
     rating: 5,
+    category: "Action",
   },
   {
     id: 2,
-    name: "Avengers: End Game",
-    releaseDate: "24 April 2020",
+    movieName: "Avengers: End Game",
+    releaseDate: "2019-04-24",
     actor: "Tony stark",
     category: "Drama",
     actress: "Scarlett Johanson",
     rating: 4,
+    category: "Action",
   },
   {
     id: 3,
-    name: "Don John",
-    releaseDate: "24 April 2021",
+    movieName: "Don John",
+    releaseDate: "2019-04-24",
     actor: "Tony stark",
     category: "Comedy",
     actress: "Scarlett Johanson",
     rating: 4,
+    category: "Action",
   },
   {
     id: 4,
-    name: "Van Helsing",
-    releaseDate: "24 April 2021",
+    movieName: "Van Helsing",
+    releaseDate: "2019-04-24",
     actor: "Tony stark",
     category: "Thriller",
     actress: "Scarlett Johanson",
     rating: 5,
+    category: "Action",
   },
   {
     id: 5,
-    name: "Matrix",
-    releaseDate: "24 April 2022",
+    movieName: "Matrix",
+    releaseDate: "2019-04-24",
     actor: "Tony stark",
     category: "Action",
     actress: "Scarlett Johanson",
     rating: 5,
+    category: "Action",
   },
 ];
 
@@ -62,12 +67,16 @@ app.get("/api/movies", (req, res) => {
 
 app.post("/api/moviesListAdd", (req, res) => {
   const newData = req.body;
-  console.log(req.body);
   if (!newData) {
     return res.status(400).json({ message: "Data not provided" });
   }
-  movies.push(newData);
-  res.status(200).json({ message: "Data addded successfully" });
+  // Generate a unique ID for the new movie
+  const id = movies.length > 0 ? movies[movies.length - 1].id + 1 : 1;
+  // Assign the generated ID to the new movie
+  const movieToAdd = { id, ...newData };
+  // Add the new movie to the list
+  movies.push(movieToAdd);
+  res.status(200).json({ message: "Data added successfully", id });
 });
 
 app.delete("/api/deleteMovie/:id", (req, res) => {
@@ -78,6 +87,15 @@ app.delete("/api/deleteMovie/:id", (req, res) => {
   }
   movies.splice(index, 1);
   res.status(200).json({ message: "Movie Deleted Successfully" });
+});
+
+app.get("/api/getCategoryWiseData/:category", (req, res) => {
+  const category = req.params.category;
+  const categoryMovies = movies.filter((movie) => movie.category === category);
+  if (categoryMovies.length === 0) {
+    return res.status(404).json({ message: "Movie Not Found" });
+  }
+  res.send(categoryMovies);
 });
 
 const port = process.env.PORT || 5000;

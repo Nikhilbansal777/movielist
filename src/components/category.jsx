@@ -1,23 +1,25 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { NavLink, useLoaderData, useNavigate, useParams } from "react-router-dom";
 
-const Body = ({ movies, onDeleteMovie }) => {
+const Category = () => {
     const navigate = useNavigate();
+    const { item } = useParams();  // it should be same name as of route param
+    const categories = useLoaderData();
 
-    console.log(movies);
-    const moviesList = movies;
+    const navigateToEdit = () => {
+        navigate("/addMovie");
+    };
+
     function formatDate(dateString) {
         const dateParts = dateString.split("-");
         const year = dateParts[0];
         const month = new Date(dateString + "T00:00:00").toLocaleString('default', { month: 'long' });
         const day = dateParts[2];
-
         return `${day} ${month} ${year}`;
     }
 
-    const navigateToEdit = () => {
-        navigate("/addMovie");
-    };
-    return (<>
+    return (<div>
+        <h1>Category component {item}</h1>
         <table className="table" id="makeEditable">
             <thead>
                 <tr>
@@ -28,17 +30,17 @@ const Body = ({ movies, onDeleteMovie }) => {
                     <th>Rating</th>
                     <th>Category</th>
                     <th>
-                        <NavLink to="addMovie">Add New Movie</NavLink>
+                        <NavLink to="/addMovie">Add New Movie</NavLink>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                {moviesList.length === 0 ? (
+                {categories.length === 0 ? (
                     <tr>
                         <td colSpan="16">No Movies Found, Please add a new Movie.</td>
                     </tr>
                 ) : (
-                    moviesList.map((movie) => (
+                    categories.map((movie) => (
                         <tr key={movie.id}>
                             <td>{movie.movieName}</td>
                             <td>{formatDate(movie.releaseDate)}</td>
@@ -47,7 +49,7 @@ const Body = ({ movies, onDeleteMovie }) => {
                             <td>{movie.rating}</td>
                             <td>{movie.category}</td>
                             <td>
-                                <button className="btn btn-sm btn-default" onClick={() => onDeleteMovie(movie.id)}>
+                                <button className="btn btn-sm btn-default" >
                                     <i className="fa fa-trash-o"></i>
                                 </button>
                                 <button onClick={navigateToEdit} className="btn btn-sm btn-default">
@@ -59,7 +61,23 @@ const Body = ({ movies, onDeleteMovie }) => {
                 )}
             </tbody>
         </table>
-    </>);
+    </div>);
 };
 
-export default Body;
+export default Category;
+
+export const categoryWiseData = async ({ params }) => {
+    const { item } = params;
+    try {
+
+        const res = await axios.get(`http://localhost:5000/api/getCategoryWiseData/${item}`);
+        console.log(res);
+        if (res.status !== 200) {
+            throw new Error("Could not find that category");
+        }
+        return res.data;
+    } catch (error) {
+        console.error("Error fetching category-wise data:", error);
+        return [];
+    }
+};
