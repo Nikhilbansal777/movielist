@@ -7,7 +7,7 @@ const NavBar = () => {
                 <a className="navbar-brand">Movie List App</a>
             </div>
         </nav>
-    <Outlet></Outlet>
+        <Outlet></Outlet>
     </>);
 };
 

@@ -10,7 +10,11 @@ const SideBar = () => {
             {sideBar.map((item, index) => {
                 return (
                     <li key={index} className="nav-item">
-                        <NavLink className="nav-link" to={`/category/${item}`}> {item} </NavLink>
+                        {item === "All"
+                            ? <NavLink className="nav-link" to='/'> {item} </NavLink>
+                            : <NavLink className="nav-link" to={`/category/${item}`}> {item} </NavLink>
+                        }
+
                     </li>
                 );
             })}

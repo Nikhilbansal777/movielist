@@ -1,33 +1,14 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import "../styles/baseComponent.css";
 import Body from "./body";
 import SideBar from "./sidebar";
 
-const BaseComp = () => {
-    const [movies, setMovies] = useState([]);
+const BaseComp = ({ movies, onDeleteMovie }) => {
 
-    useEffect(() => {
-        axios.get("http://localhost:5000/api/movies").then((res) => {
-            console.log(res.data);
-            setMovies(res.data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }, []);
-
-    const handleDeleteMovie = (id) => {
-        axios.delete(`http://localhost:5000/api/deleteMovie/${id}`).then((res) => {
-            console.log(movies);
-            setMovies(movies.filter(movie => movie.id !== id));
-        }).catch((err) => {
-            console.log(err);
-        });
-    };
     return (<>
+        <h1>All Movies</h1>
         <div className="container">
             <SideBar></SideBar>
-            <Body movies={movies} onDeleteMovie={handleDeleteMovie}></Body>
+            <Body movies={movies} onDeleteMovie={onDeleteMovie}></Body>
         </div>
         <main>
         </main>
