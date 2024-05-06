@@ -12,16 +12,18 @@ import Category, { categoryWiseData } from "./components/category";
 import NavBar from "./components/navbar";
 import NotFound from "./components/notfound";
 
+export const getMovie = (setMovies) => {
+  axios.get("http://localhost:5000/api/movies").then((res) => {
+      console.log(res.data);
+      setMovies(res.data);
+  }).catch((err) => {
+      console.log(err);
+  });
+}
 function App() {
   const [movies, setMovies] = useState([]);
-
   useEffect(() => {
-      axios.get("http://localhost:5000/api/movies").then((res) => {
-          console.log(res.data);
-          setMovies(res.data);
-      }).catch((err) => {
-          console.log(err);
-      });
+    getMovie(setMovies)
   }, []);
 
   const handleDeleteMovie = (id) => {
@@ -37,8 +39,8 @@ function App() {
       // in first route the component will be used that will be common to all the components
       //  first route would be index which will be initialised on base route
       <Route path="/" element={<NavBar />}>
-        <Route index element={<BaseComp movies={movies} onDeleteMovie = {handleDeleteMovie} />} />
-        <Route path="addMovie" element={<AddMovieForm></AddMovieForm>} />
+        <Route index element={<BaseComp movies={movies} onDeleteMovie = {handleDeleteMovie} setMovies={setMovies} />} />
+        <Route path="addMovie" element={<AddMovieForm setMovies={setMovies} movies={movies}></AddMovieForm>} />
         <Route
           path="category/:item"
           loader={categoryWiseData}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/addMovieForm.css';
 
-const AddMovieForm = () => {
+const AddMovieForm = ({ setMovies, movies }) => {
     const navigate = useNavigate();
     const [formValues, setFormValue] = useState({
         movieName: "",
@@ -21,14 +21,13 @@ const AddMovieForm = () => {
             { type: "text", name: "actor", placeholder: "Actor", fieldName: "actor", label: "Actor" },
             { type: "text", name: "actress", placeholder: "Actress", fieldName: "actress", label: "Actress" },
             { type: "select", name: "rating", placeholder: "Rating", fieldName: "rating", label: "Rating", options: [1, 2, 3, 4, 5] },
-            { type: "select", name: "category", placeholder: "Category", fieldName: "category", label: "Category", options: ["Rom Com", "Thriller", "Suspense", "Fiction", "Drama", "Comedy","Action", "Science Fiction",] },
+            { type: "select", name: "category", placeholder: "Category", fieldName: "category", label: "Category", options: ["Rom Com", "Thriller", "Suspense", "Fiction", "Drama", "Comedy", "Action", "Science Fiction",] },
         ]);
 
     const [formErrors, setFormError] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
 
     const handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
         const errors = validateFields({ ...formValues, [e.target.name]: e.target.value });
         setFormValue({ ...formValues, [e.target.name]: e.target.value });
         // Check if the input value is truthy (i.e., not empty)
@@ -49,9 +48,9 @@ const AddMovieForm = () => {
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) { // if formerror object is empty means all input are correct
-            console.log(formValues);
             axios.post("http://localhost:5000/api/moviesListAdd", formValues).then((res) => {
                 console.log(res);
+                setMovies((previous) => [...previous, formValues]);
                 navigate("/");
             }).catch((err) => {
                 console.log(err);
