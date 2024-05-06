@@ -1,22 +1,24 @@
+import { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { context } from "../App";
 
-const Body = ({ movies, onDeleteMovie }) => {
+const Body = () => {
+    const {movies, setMovies, handleDeleteMovie} = useContext(context);
     const navigate = useNavigate();
 
-    console.log(movies);
     const moviesList = movies;
     function formatDate(dateString) {
         const dateParts = dateString.split("-");
         const year = dateParts[0];
         const month = new Date(dateString + "T00:00:00").toLocaleString('default', { month: 'long' });
         const day = dateParts[2];
-
         return `${day} ${month} ${year}`;
     }
 
     const navigateToEdit = () => {
         navigate("/addMovie");
     };
+
     return (<>
         <table className="table" id="makeEditable">
             <thead>
@@ -47,7 +49,7 @@ const Body = ({ movies, onDeleteMovie }) => {
                             <td>{movie.rating}</td>
                             <td>{movie.category}</td>
                             <td>
-                                <button className="btn btn-sm btn-default" onClick={() => onDeleteMovie(movie.id)}>
+                                <button className="btn btn-sm btn-default" onClick={() => handleDeleteMovie(movie.id)}>
                                     <i className="fa fa-trash-o"></i>
                                 </button>
                                 <button onClick={navigateToEdit} className="btn btn-sm btn-default">
@@ -58,7 +60,7 @@ const Body = ({ movies, onDeleteMovie }) => {
                     ))
                 )}
             </tbody>
-        </table>
+        </table> 
     </>);
 };
 

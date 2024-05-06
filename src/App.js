@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   Route,
   RouterProvider,
@@ -12,9 +12,10 @@ import Category, { categoryWiseData } from "./components/category";
 import NavBar from "./components/navbar";
 import NotFound from "./components/notfound";
 
+export const context = createContext();
+
 export const getMovie = (setMovies) => {
   axios.get("http://localhost:5000/api/movies").then((res) => {
-      console.log(res.data);
       setMovies(res.data);
   }).catch((err) => {
       console.log(err);
@@ -28,7 +29,6 @@ function App() {
 
   const handleDeleteMovie = (id) => {
       axios.delete(`http://localhost:5000/api/deleteMovie/${id}`).then((res) => {
-          console.log(movies);
           setMovies(movies.filter(movie => movie.id !== id));
       }).catch((err) => {
           console.log(err);
@@ -39,7 +39,7 @@ function App() {
       // in first route the component will be used that will be common to all the components
       //  first route would be index which will be initialised on base route
       <Route path="/" element={<NavBar />}>
-        <Route index element={<BaseComp movies={movies} onDeleteMovie = {handleDeleteMovie} setMovies={setMovies} />} />
+        <Route index element= {<BaseComp  />} />
         <Route path="addMovie" element={<AddMovieForm setMovies={setMovies} movies={movies}></AddMovieForm>} />
         <Route
           path="category/:item"
@@ -53,7 +53,9 @@ function App() {
   );
   return (
     <div className="App">
-      <RouterProvider router={router}></RouterProvider>
+      <context.Provider value={{movies, setMovies, handleDeleteMovie}}>
+        <RouterProvider router={router}></RouterProvider>
+        </context.Provider>
     </div>
   );
 }

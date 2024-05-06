@@ -77,7 +77,6 @@ export const categoryWiseData = async ({ params }) => {
     const { item } = params;
     try {
         const res = await axios.get(`http://localhost:5000/api/getCategoryWiseData/${item}`);
-        console.log(res);
         if (res.status !== 200) {
             throw new Error("Could not find that category");
         }

@@ -21,7 +21,7 @@ const AddMovieForm = ({ setMovies, movies }) => {
             { type: "text", name: "actor", placeholder: "Actor", fieldName: "actor", label: "Actor" },
             { type: "text", name: "actress", placeholder: "Actress", fieldName: "actress", label: "Actress" },
             { type: "select", name: "rating", placeholder: "Rating", fieldName: "rating", label: "Rating", options: [1, 2, 3, 4, 5] },
-            { type: "select", name: "category", placeholder: "Category", fieldName: "category", label: "Category", options: ["Rom Com", "Thriller", "Suspense", "Fiction", "Drama", "Comedy", "Action", "Science Fiction",] },
+            { type: "select", name: "category", placeholder: "Category", fieldName: "category", label: "Category", options: ["Rom-com", "Thriller", "Suspense", "Fiction", "Drama", "Comedy", "Action", "Science Fiction",] },
         ]);
 
     const [formErrors, setFormError] = useState({});
@@ -49,7 +49,6 @@ const AddMovieForm = ({ setMovies, movies }) => {
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) { // if formerror object is empty means all input are correct
             axios.post("http://localhost:5000/api/moviesListAdd", formValues).then((res) => {
-                console.log(res);
                 setMovies((previous) => [...previous, formValues]);
                 navigate("/");
             }).catch((err) => {
@@ -92,7 +91,6 @@ const AddMovieForm = ({ setMovies, movies }) => {
         } else if (values.releaseDate) {
             const enteredDate = new Date(values.releaseDate);
             const today = new Date();
-            console.log(formatDate(enteredDate), formatDate(today));
             if (formatDate(enteredDate) > formatDate(today)) {
                 errors['releaseDate'] = "Please enter a date from past";
             }

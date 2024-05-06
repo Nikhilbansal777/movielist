@@ -14,20 +14,14 @@ const AddMovie = () => {
         setFormData(prevState => {
             const newFields = [...prevState];
             newFields[index] = { ...newFields[index], value: e.target.value };
-            console.log(e.target.value);
-            console.log(newFields[index]);
             return newFields;
         });
-        console.log(inputFields);
     };
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(inputFields);
         const data = new FormData(e.target);
-        console.log(Object.fromEntries(data.entries()));
         const formValues = Object.fromEntries(data.entries());
-
         inputFields.map((field, index) => {
             if (field.value === "") {
 
@@ -51,10 +45,8 @@ const AddMovie = () => {
         setFormData(prevState => {
             const newFields = [...prevState];
             if (newFields[index].type === 'date') {
-                console.log("hi");
                 const enteredDate = new Date(e.target.value);
                 const today = new Date();
-                console.log(formatDate(enteredDate), formatDate(today));
                 if (formatDate(enteredDate) > formatDate(today)) {
                     newFields[index] = { ...newFields[index], focused: true, errMsg: "Please enter a date from past" };
                 }
