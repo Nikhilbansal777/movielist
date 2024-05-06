@@ -1,71 +1,27 @@
 import axios from "axios";
-import { NavLink, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { context } from "../App";
 import "../styles/baseComponent.css";
 import SideBar from "./sidebar";
+import Table from "./table";
 
 const Category = ({ onDeleteMovie }) => {
     const navigate = useNavigate();
     const { item } = useParams();  // it should be same name as of route param
     const categories = useLoaderData();
-
+    const { formatDate } = useContext(context);
+    
     const navigateToEdit = () => {
         navigate("/addMovie");
     };
-
-    function formatDate(dateString) {
-        const dateParts = dateString.split("-");
-        const year = dateParts[0];
-        const month = new Date(dateString + "T00:00:00").toLocaleString('default', { month: 'long' });
-        const day = dateParts[2];
-        return `${day} ${month} ${year}`;
-    }
 
     return (
         <>
             <h1>{item} Movies</h1>
             <div className="container">
                 <SideBar></SideBar>
-                <table className="table" id="makeEditable">
-                    <thead>
-                        <tr>
-                            <th>Movie</th>
-                            <th>Release Date</th>
-                            <th>Actor</th>
-                            <th>Actress</th>
-                            <th>Rating</th>
-                            <th>Category</th>
-                            <th>
-                                <NavLink to="/addMovie">Add New Movie</NavLink>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {categories.length === 0 ? (
-                            <tr>
-                                <td colSpan="16">No Movies Found, Please add a new Movie.</td>
-                            </tr>
-                        ) : (
-                            categories.map((movie) => (
-                                <tr key={movie.id}>
-                                    <td>{movie.movieName}</td>
-                                    <td>{formatDate(movie.releaseDate)}</td>
-                                    <td>{movie.actor}</td>
-                                    <td>{movie.actress}</td>
-                                    <td>{movie.rating}</td>
-                                    <td>{movie.category}</td>
-                                    <td>
-                                        <button className="btn btn-sm btn-default" onClick={() => onDeleteMovie(movie.id)} >
-                                            <i className="fa fa-trash-o"></i>
-                                        </button>
-                                        <button onClick={navigateToEdit} className="btn btn-sm btn-default">
-                                            <i className="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                <Table moviesList={categories} formatDate={formatDate} navigateToEdit={navigateToEdit} handleDeleteMovie={onDeleteMovie}></Table>
             </div>
         </>
     );

@@ -34,6 +34,15 @@ function App() {
           console.log(err);
       });
   };
+  
+  function formatDate(dateString) {
+    const dateParts = dateString.split("-");
+    const year = dateParts[0];
+    const month = new Date(dateString + "T00:00:00").toLocaleString('default', { month: 'long' });
+    const day = dateParts[2];
+    return `${day} ${month} ${year}`;
+}
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       // in first route the component will be used that will be common to all the components
@@ -53,7 +62,7 @@ function App() {
   );
   return (
     <div className="App">
-      <context.Provider value={{movies, setMovies, handleDeleteMovie}}>
+      <context.Provider value={{movies, setMovies, handleDeleteMovie, formatDate}}>
         <RouterProvider router={router}></RouterProvider>
         </context.Provider>
     </div>
