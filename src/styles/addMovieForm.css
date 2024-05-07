@@ -15,7 +15,7 @@ h1 {
     text-align: center;
 }
 
-input {
+input, textarea {
     border: 1px solid #d8dbdb;
     font-size: 16px;
     margin: 0;

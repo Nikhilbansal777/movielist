@@ -24,6 +24,7 @@ export const getMovie = (setMovies) => {
 }
 function App() {
   const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     getMovie(setMovies)
   }, []);
@@ -36,21 +37,28 @@ function App() {
       });
   };
   
+  const getMovieDetail = async (id) => {
+    const ids = id.params.id;
+    console.log(ids);
+    const res = await axios.get(`http://localhost:5000/api/getMovieDetail/${ids}`);
+    return res.data
+  }
+
   function formatDate(dateString) {
     const dateParts = dateString.split("-");
     const year = dateParts[0];
     const month = new Date(dateString + "T00:00:00").toLocaleString('default', { month: 'long' });
     const day = dateParts[2];
     return `${day} ${month} ${year}`;
-}
-
+  }
+ 
   const router = createBrowserRouter(
     createRoutesFromElements(
       // in first route the component will be used that will be common to all the components
       //  first route would be index which will be initialised on base route
       <Route path="/" element={<NavBar />}>
         <Route index element= {<BaseComp  />} />
-        <Route path="addMovie" element={<AddMovieForm setMovies={setMovies} movies={movies}></AddMovieForm>} />
+        <Route path="addMovie/:id?" element={<AddMovieForm setMovies={setMovies} movies={movies}></AddMovieForm>} />
         <Route
           path="category/:item"
           loader={categoryWiseData}
@@ -64,7 +72,7 @@ function App() {
   );
   return (
     <div className="App">
-      <context.Provider value={{movies, setMovies, handleDeleteMovie, formatDate}}>
+      <context.Provider value={{movies, setMovies, handleDeleteMovie, formatDate, getMovieDetail}}>
         <RouterProvider router={router}></RouterProvider>
         </context.Provider>
     </div>

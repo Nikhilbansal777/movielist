@@ -5,13 +5,9 @@ import Table from "./table";
 
 const Body = () => {
     const { movies, handleDeleteMovie, formatDate } = useContext(context);
-    const navigate = useNavigate();
-    const navigateToEdit = () => {
-        navigate("/addMovie");
-    };
 
     return (<>
-        <Table moviesList={movies} formatDate={formatDate} navigateToEdit={navigateToEdit} handleDeleteMovie={handleDeleteMovie}></Table>
+        <Table moviesList={movies} formatDate={formatDate} handleDeleteMovie={handleDeleteMovie}></Table>
     </>);
 };
 

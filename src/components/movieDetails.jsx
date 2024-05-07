@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext } from 'react';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { context } from '../App';
 import '../styles/movieDetail.css';
 const MovieDetails = () => {
@@ -41,11 +41,7 @@ export default MovieDetails;
 
 export const getMovieDetail = async ({ params }) => {
     const { id } = params;
-    try {
-        const res = await axios.get(`http://localhost:5000/api/getMovieDetail/${id}`);
-        console.log(res.data);
-        return res.data;
-    } catch (err) {
-        return [];
-    }
+    const res = await axios.get(`http://localhost:5000/api/getMovieDetail/${id}`);
+    console.log(res.data);
+    return res.data;
 };

@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/baseComponent.css";
-
-const Table = ({ moviesList, formatDate, handleDeleteMovie, navigateToEdit }) => {
+const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
     const [tableHeaders] = useState(["Movie", "Date", "Actor", "Actress", "Director", "Rating", "Category", "Description", "Add New Movie"]);
+    const navigate = useNavigate();
+    const navigateToEdit = (id) => {
+        console.log(id);
+        navigate(`/addMovie/${id}`);
+    };
     return (
         <table className="table" id="makeEditable">
             <thead>
@@ -20,14 +24,14 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie, navigateToEdit }) =>
                 </tr>
             </thead>
             <tbody>
-            {moviesList.length === 0 ? (
+                {moviesList.length === 0 ? (
                     <tr>
                         <td colSpan="7">No Movies Found, Please add a new Movie.</td>
                     </tr>
                 ) : (
                     moviesList.map((movie, index) => (
                         <tr key={index}>
-                            <td><NavLink to={`movieDetail/${movie.id}`}> {movie.movieName} </NavLink></td>
+                            <td><NavLink to={`/movieDetail/${movie.id}`}> {movie.movieName} </NavLink></td>
                             <td>{formatDate(movie.releaseDate)}</td>
                             <td>{movie.actor}</td>
                             <td>{movie.actress}</td>
@@ -41,7 +45,7 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie, navigateToEdit }) =>
                                 </button>
                             </td>
                             <td>
-                                <button onClick={navigateToEdit} className="btn btn-sm btn-default">
+                                <button onClick={() => navigateToEdit(movie.id)} className="btn btn-sm btn-default">
                                     <i className="fa fa-edit"></i>
                                 </button>
                             </td>
