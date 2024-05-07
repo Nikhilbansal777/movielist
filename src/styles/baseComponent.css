@@ -19,13 +19,19 @@
   .table {
     margin-top: 20px;
   }
-
+  table thead th {
+    white-space: nowrap;
+  }
+  .table tbody {
+    width: 100%;
+  }
   .table tbody tr {
     padding: 0; /* Remove default padding */
   }
   
   .table tbody tr td {
-    padding: 8px; /* Add padding to table cells */
+    padding: 7px; /* Add padding to table cells */
+    word-break: break-word;
   }
   .sidebar {
     width: 200px;

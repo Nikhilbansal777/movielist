@@ -10,18 +10,24 @@ const AddMovieForm = ({ setMovies, movies }) => {
         releaseDate: "",
         actor: "",
         actress: "",
+        director: "",
         category: "",
         rating: "",
+        description: "",
+
     });
 
-    const [inputFields, setInputFields] = useState(
+    const [inputFields] = useState(
         [
             { type: "text", name: "movieName", placeholder: "Movie Name", fieldName: "movieName", label: "Movie Name" },
-            { type: "date", name: "releaseDate", placeholder: "Release Date", fieldName: "releaseDate", label: "Release Dat" },
+            { type: "date", name: "releaseDate", placeholder: "Release Date", fieldName: "releaseDate", label: "Release Date" },
             { type: "text", name: "actor", placeholder: "Actor", fieldName: "actor", label: "Actor" },
             { type: "text", name: "actress", placeholder: "Actress", fieldName: "actress", label: "Actress" },
+            { type: "text", name: "director", placeholder: "Director", fieldName: "director", label: "Director" },
             { type: "select", name: "rating", placeholder: "Rating", fieldName: "rating", label: "Rating", options: [1, 2, 3, 4, 5] },
             { type: "select", name: "category", placeholder: "Category", fieldName: "category", label: "Category", options: ["Rom-com", "Thriller", "Suspense", "Fiction", "Drama", "Comedy", "Action", "Science Fiction",] },
+            { type: "textarea", name: "description", placeholder: "Description", fieldName: "description", label: "Description" },
+
         ]);
 
     const [formErrors, setFormError] = useState({});
@@ -106,6 +112,12 @@ const AddMovieForm = ({ setMovies, movies }) => {
         if (!values.category) {
             errors['category'] = "Category is required";
         }
+        if (!values.description) {
+            errors['description'] = "Description is required";
+        }
+        if (!values.director) {
+            errors['director'] = "Director is required";
+        }
         return errors;
     };
 
@@ -113,7 +125,7 @@ const AddMovieForm = ({ setMovies, movies }) => {
         <form onSubmit={handleSubmit}>
             <h1>Add/Edit a Movie</h1>
             {inputFields.map((field, index) => {
-                if (field.type == "select") {
+                if (field.type === "select") {
                     return (
                         <React.Fragment key={index}>
                             <div className="field" >
@@ -124,6 +136,16 @@ const AddMovieForm = ({ setMovies, movies }) => {
                                         <option key={index} value={option}>{option}</option>
                                     )}
                                 </select>
+                            </div>
+                            <p>{formErrors[field.fieldName]}</p>
+                        </React.Fragment>
+                    );
+                } else if (field.type === "textarea") {
+                    return (
+                        <React.Fragment key={index}>
+                            <div className="field">
+                                <label>{field.label}</label>
+                                <textarea name={field.name} placeholder={field.placeholder} onChange={handleChange} onBlur={handleBlur}></textarea>
                             </div>
                             <p>{formErrors[field.fieldName]}</p>
                         </React.Fragment>

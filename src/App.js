@@ -11,6 +11,7 @@ import BaseComp from "./components/baseComp";
 import Category, { categoryWiseData } from "./components/category";
 import NavBar from "./components/navbar";
 import NotFound from "./components/notfound";
+import MovieDetails, { getMovieDetail } from "./components/movieDetails";
 
 export const context = createContext();
 
@@ -56,6 +57,7 @@ function App() {
           element={<Category onDeleteMovie = {handleDeleteMovie} />}
           errorElement={<NotFound />}
         />
+        <Route path="movieDetail/:id" loader={getMovieDetail} element={<MovieDetails></MovieDetails>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     )

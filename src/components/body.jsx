@@ -4,7 +4,7 @@ import { context } from "../App";
 import Table from "./table";
 
 const Body = () => {
-    const { movies, setMovies, handleDeleteMovie, formatDate } = useContext(context);
+    const { movies, handleDeleteMovie, formatDate } = useContext(context);
     const navigate = useNavigate();
     const navigateToEdit = () => {
         navigate("/addMovie");

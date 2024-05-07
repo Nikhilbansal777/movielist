@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const SideBar = () => {
-    const [sideBar, setSidebar] = useState(
+    const [sideBar] = useState(
         ["All", "Action", "Comedy", "Drama", "Rom-com", "Thriller", "Suspense", "Science Fiction", "Fiction"]
     );
     return (<>

@@ -16,6 +16,8 @@ var movies = [
     actress: "Scarlett Johanson",
     rating: 5,
     category: "Action",
+    director: "KJ",
+    description: "aaaaaaaaaaaaaaaaaaaaaaaaa",
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ var movies = [
     actress: "Scarlett Johanson",
     rating: 4,
     category: "Action",
+    director: "KJ",
+    description: "aaaaaaaaaaaaaaaaaaaaaaaaa",
   },
   {
     id: 3,
@@ -36,6 +40,8 @@ var movies = [
     actress: "Scarlett Johanson",
     rating: 4,
     category: "Action",
+    director: "KJ",
+    description: "aaaaaaaaaaaaaaaaaaaaaaaaa",
   },
   {
     id: 4,
@@ -46,6 +52,8 @@ var movies = [
     actress: "Scarlett Johanson",
     rating: 5,
     category: "Action",
+    director: "KJ",
+    description: "aaaaaaaaaaaaaaaaaaaaaaaaa",
   },
   {
     id: 5,
@@ -56,6 +64,8 @@ var movies = [
     actress: "Scarlett Johanson",
     rating: 5,
     category: "Action",
+    director: "KJ",
+    description: "aaaaaaaaaaaaaaaaaaaaaaaaa",
   },
 ];
 
@@ -98,6 +108,14 @@ app.get("/api/getCategoryWiseData/:category", (req, res) => {
   res.send(categoryMovies);
 });
 
+app.get("/api/getMovieDetail/:id", (req, res) => {
+  const id = req.params.id;
+  const index = movies.findIndex((movie) => movie.id === parseInt(id));
+  if (index === -1) {
+    return res.status(404).json({ message: "Movie Not found" });
+  }
+  res.send(movies[index]);
+});
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log("Server Listen on Port" + port);

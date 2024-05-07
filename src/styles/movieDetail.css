@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+.star-rating {
+  display: inline-block;
+}
+
+.star-rating i {
+  font-size: 18px;
+  display: inline-block;
+  width: 18px;
+  color: #fbbd61;
+}
+
+#content_hero:before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  content: "";
+  background-image: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+#content_hero .container .blurb {
+  position: relative;
+  width: 100%;
+  margin-top: 50px;
+  -webkit-animation: Blurb 0.5s 0.5s forwards;
+          animation: Blurb 0.5s 0.5s forwards;
+  text-align: left;
+}
+
+#content_hero .container .blurb h1 {
+  font-size: 52px;
+  font-weight: 300;
+  padding: 0;
+  letter-spacing: 3px;
+  opacity: 0;
+  color: #fff;
+  border: none;
+}
+
+#content_hero .container .blurb p {
+  font-size: 18px;
+  color: #fff;
+}
+
+#content_hero .container .blurb .certificate {
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 43px;
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin-right: 8px;
+  transform: translateY(2px);
+  text-align: center;
+  color: #fff;
+  border: solid 2px #fff;
+  border-radius: 50%;
+}
+
+#content_hero {
+  position: relative;
+  transition: all 300ms ease-in-out;
+  background-position: center;
+  background-size: cover;
+}
+
+#content_hero:before {
+  top: auto;
+  height: 70%;
+}
+
+#content_hero .container .blurb {
+  margin-top: 200px;
+  margin-bottom: 100px;
+}
+
+#content_hero .container .blurb h1 {
+  opacity: 1;
+}
+
+span.title {
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #363635;
+  margin-right: 10px;
+}
+
+.director {
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-right: 10px;
+  margin-bottom: 30px;
+}
