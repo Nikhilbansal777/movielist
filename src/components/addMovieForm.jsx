@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { context } from "../App";
 import '../styles/addMovieForm.css';
 
 const AddMovieForm = ({ setMovies, movies }) => {
+    const { selectedMovie, movieForEdit, flag } = useContext(context);
+    console.log(flag);
     const navigate = useNavigate();
     const [formValues, setFormValue] = useState({
         movieName: "",
@@ -14,8 +17,20 @@ const AddMovieForm = ({ setMovies, movies }) => {
         category: "",
         rating: "",
         description: "",
-
     });
+
+    useEffect(() => {
+        if (selectedMovie) {
+            const updatedFormValues = { ...formValues, ...selectedMovie };
+            setFormValue(updatedFormValues);
+        }
+    }, [selectedMovie]);
+
+    useEffect(() => {
+        return (() => {
+            movieForEdit({});
+        });
+    }, []);
 
     const [inputFields] = useState(
         [
@@ -27,7 +42,6 @@ const AddMovieForm = ({ setMovies, movies }) => {
             { type: "select", name: "rating", placeholder: "Rating", fieldName: "rating", label: "Rating", options: [1, 2, 3, 4, 5] },
             { type: "select", name: "category", placeholder: "Category", fieldName: "category", label: "Category", options: ["Rom-com", "Thriller", "Suspense", "Fiction", "Drama", "Comedy", "Action", "Science Fiction",] },
             { type: "textarea", name: "description", placeholder: "Description", fieldName: "description", label: "Description" },
-
         ]);
 
     const [formErrors, setFormError] = useState({});
@@ -51,17 +65,29 @@ const AddMovieForm = ({ setMovies, movies }) => {
             setFormError({ ...formErrors, [e.target.name]: errors[e.target.name] });
         }
     };
-
+    
     useEffect(() => {
-        if (Object.keys(formErrors).length === 0 && isSubmit) { // if formerror object is empty means all input are correct
-            axios.post("http://localhost:5000/api/moviesListAdd", formValues).then((res) => {
-                setMovies((previous) => [...previous, formValues]);
-                navigate("/");
-            }).catch((err) => {
-                console.log(err);
-            });
+        if (isSubmit && Object.keys(formErrors).length === 0) { // if formerror object is empty means all input are correct
+            if (flag) {
+                console.log(formValues);
+                console.log("inside edit operation");
+                axios.patch(`http://localhost:5000/api/updateMovie/${formValues.id}`, formValues).then((res) => {
+                    setMovies((previous) => [...previous, formValues]);
+                    navigate("/");
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                console.log("inside add");
+                axios.post("http://localhost:5000/api/moviesListAdd", formValues).then((res) => {
+                    setMovies((previous) => [...previous, formValues]);
+                    navigate("/");
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
         }
-    }, [formErrors]);
+    }, [isSubmit, formErrors]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -123,7 +149,7 @@ const AddMovieForm = ({ setMovies, movies }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h1>Add/Edit a Movie</h1>
+            <h1>{ flag? "Edit": "Add" } a Movie</h1>
             {inputFields.map((field, index) => {
                 if (field.type === "select") {
                     return (
@@ -145,7 +171,7 @@ const AddMovieForm = ({ setMovies, movies }) => {
                         <React.Fragment key={index}>
                             <div className="field">
                                 <label>{field.label}</label>
-                                <textarea name={field.name} placeholder={field.placeholder} onChange={handleChange} onBlur={handleBlur}></textarea>
+                                <textarea name={field.name} placeholder={field.placeholder} value={formValues[field.fieldName]} onChange={handleChange} onBlur={handleBlur}></textarea>
                             </div>
                             <p>{formErrors[field.fieldName]}</p>
                         </React.Fragment>
@@ -155,14 +181,14 @@ const AddMovieForm = ({ setMovies, movies }) => {
                         <React.Fragment key={index}>
                             <div className="field" key={index}>
                                 <label>{field.label}</label>
-                                <input type={field.type} name={field.name} placeholder={field.placeholder} onChange={handleChange} onBlur={handleBlur} />
+                                <input type={field.type} name={field.name} placeholder={field.placeholder} value={formValues[field.fieldName]} onChange={handleChange} onBlur={handleBlur} />
                             </div>
                             <p>{formErrors[field.fieldName]}</p>
                         </React.Fragment>
                     );
                 }
             })}
-            <button className="button" type="submit">Submit</button>
+            <button className="button" type="submit">{ flag? "Edit": "Add" }</button>
         </form >
     );
 };

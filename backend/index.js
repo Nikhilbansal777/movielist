@@ -116,6 +116,22 @@ app.get("/api/getMovieDetail/:id", (req, res) => {
   }
   res.send(movies[index]);
 });
+
+app.patch("/api/updateMovie/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const updatedData = req.body;
+
+  // Find the index of the movie with the given ID
+  const index = movies.findIndex((movie) => movie.id === id);
+  if (index === -1) {
+    return res.status(404).json({ message: "Movie not found" });
+  }
+
+  // Update the movie data with the new values
+  movies[index] = { ...movies[index], ...updatedData };
+
+  res.status(200).json({ message: "Movie updated successfully" });
+});
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log("Server Listen on Port" + port);

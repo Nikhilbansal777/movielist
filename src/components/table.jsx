@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { context } from "../App";
 import "../styles/baseComponent.css";
+
+
 const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
     const [tableHeaders] = useState(["Movie", "Date", "Actor", "Actress", "Director", "Rating", "Category", "Description", "Add New Movie"]);
+    const { selectedMovie, movieForEdit, setFlag, flag } = useContext(context);
+
     const navigate = useNavigate();
-    const navigateToEdit = (id) => {
-        console.log(id);
-        navigate(`/addMovie/${id}`);
+    const navigateToEdit = (id, movie) => {
+        movieForEdit(movie);
+        setFlag(true);
+        setTimeout(() => {
+            console.log(flag);
+        }, 5000);
+        navigate(`/addMovie`);
+    };
+
+    const flagToFalse = () => {
+        setFlag(false);
     };
     return (
         <table className="table" id="makeEditable">
@@ -17,7 +30,7 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
                             {header !== "Add New Movie" ? (
                                 header
                             ) : (
-                                <NavLink to='/addMovie'>{header}</NavLink>
+                                <NavLink onClick={flagToFalse} to='/addMovie'>{header}</NavLink>
                             )}
                         </th>
                     ))}
@@ -45,7 +58,7 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
                                 </button>
                             </td>
                             <td>
-                                <button onClick={() => navigateToEdit(movie.id)} className="btn btn-sm btn-default">
+                                <button onClick={() => navigateToEdit(movie.id, movie)} className="btn btn-sm btn-default">
                                     <i className="fa fa-edit"></i>
                                 </button>
                             </td>
@@ -53,6 +66,7 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
                     ))
                 )}
             </tbody>
+
         </table>
     );
 };

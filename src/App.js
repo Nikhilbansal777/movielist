@@ -9,9 +9,9 @@ import {
 import AddMovieForm from "./components/addMovieForm";
 import BaseComp from "./components/baseComp";
 import Category, { categoryWiseData } from "./components/category";
+import MovieDetails from "./components/movieDetails";
 import NavBar from "./components/navbar";
 import NotFound from "./components/notfound";
-import MovieDetails, { getMovieDetail } from "./components/movieDetails";
 
 export const context = createContext();
 
@@ -23,11 +23,19 @@ export const getMovie = (setMovies) => {
   });
 }
 function App() {
+  const [selectedMovie, setSelectedMovie] = useState({});
+  const [flag, setFlag] = useState(false);
   const [movies, setMovies] = useState([]);
+
+  const movieForEdit = (selectedMovie) => {
+    console.log("hiiiii", selectedMovie);
+    setSelectedMovie(selectedMovie)
+  }
 
   useEffect(() => {
     getMovie(setMovies)
   }, []);
+  
 
   const handleDeleteMovie = (id) => {
       axios.delete(`http://localhost:5000/api/deleteMovie/${id}`).then((res) => {
@@ -58,7 +66,7 @@ function App() {
       //  first route would be index which will be initialised on base route
       <Route path="/" element={<NavBar />}>
         <Route index element= {<BaseComp  />} />
-        <Route path="addMovie/:id?" element={<AddMovieForm setMovies={setMovies} movies={movies}></AddMovieForm>} />
+        <Route path="addMovie" element={<AddMovieForm setMovies={setMovies} movies={movies}></AddMovieForm>} />
         <Route
           path="category/:item"
           loader={categoryWiseData}
@@ -72,7 +80,7 @@ function App() {
   );
   return (
     <div className="App">
-      <context.Provider value={{movies, setMovies, handleDeleteMovie, formatDate, getMovieDetail}}>
+      <context.Provider value={{movies, setMovies, handleDeleteMovie, formatDate, getMovieDetail, selectedMovie, movieForEdit, flag ,setFlag}}>
         <RouterProvider router={router}></RouterProvider>
         </context.Provider>
     </div>
