@@ -110,8 +110,8 @@ function App() {
           movieForEdit,
           flag,
           setFlag,
-          filteredList: searchString,
-          setFilteredList: setSearchString,
+          searchString,
+          setSearchString,
         }}
       >
         <RouterProvider router={router}></RouterProvider>
