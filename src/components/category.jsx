@@ -14,7 +14,7 @@ const Category = ({ onDeleteMovie }) => {
     return (
         <>
             <h1>{item} Movies</h1>
-            <div className="container">
+            <div className="category-container">
                 <SideBar></SideBar>
                 <Table moviesList={categories} formatDate={formatDate} handleDeleteMovie={onDeleteMovie}></Table>
             </div>

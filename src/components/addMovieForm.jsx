@@ -65,7 +65,7 @@ const AddMovieForm = ({ setMovies, movies }) => {
             setFormError({ ...formErrors, [e.target.name]: errors[e.target.name] });
         }
     };
-    
+
     useEffect(() => {
         if (isSubmit && Object.keys(formErrors).length === 0) { // if formerror object is empty means all input are correct
             if (flag) {
