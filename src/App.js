@@ -27,12 +27,10 @@ export const getMovie = (setMovies) => {
 };
 function App() {
   const [selectedMovie, setSelectedMovie] = useState({});
-  const [flag, setFlag] = useState(false);
   const [movies, setMovies] = useState([]);
   const [searchString, setSearchString] = useState("");
 
   const movieForEdit = (selectedMovie) => {
-    console.log("hiiiii", selectedMovie);
     setSelectedMovie(selectedMovie);
   };
 
@@ -108,8 +106,6 @@ function App() {
           getMovieDetail,
           selectedMovie,
           movieForEdit,
-          flag,
-          setFlag,
           searchString,
           setSearchString,
         }}

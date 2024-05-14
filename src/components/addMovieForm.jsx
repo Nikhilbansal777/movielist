@@ -3,10 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { context } from "../App";
 import '../styles/addMovieForm.css';
+import { useSelector } from "react-redux";
 
 const AddMovieForm = ({ setMovies, movies }) => {
-    const { selectedMovie, movieForEdit, flag } = useContext(context);
-    console.log(flag);
+    const { selectedMovie, movieForEdit } = useContext(context);
+    const flag = useSelector((state)=>state.flag)
     const navigate = useNavigate();
     const [formValues, setFormValue] = useState({
         movieName: "",

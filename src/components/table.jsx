@@ -1,27 +1,26 @@
 import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { context } from "../App";
+import { updateFlag } from "../redux/reducers/todoReducer";
 import "../styles/table.css";
 import Search from "./searchMovie";
 
-
 const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
     const [tableHeaders] = useState(["Movie", "Date", "Actor", "Actress", "Director", "Rating", "Category", "Description", "Add New Movie"]);
-    const { movieForEdit, setFlag, flag, searchString } = useContext(context);
+    const { movieForEdit, searchString } = useContext(context);
     const [newMovies, setNewMovies] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const navigateToEdit = (id, movie) => {
         movieForEdit(movie);
-        setFlag(true);
-        setTimeout(() => {
-            console.log(flag);
-        }, 5000);
+        dispatch(updateFlag(true));
         navigate(`/addMovie`);
     };
 
-    const flagToFalse = () => {
-        setFlag(false);
+    const setFlag = () => {
+        dispatch(updateFlag(false));
     };
 
     useEffect(() => {
@@ -29,13 +28,12 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
     }, [searchString]);
 
     const filterMovies = () => {
-            const movie = moviesList.filter((movie) => {
-                return movie.movieName.toLowerCase().includes(searchString.toLowerCase());
-            }          );
-            console.log(movie);
-            setNewMovies(movie);
+        const movie = moviesList.filter((movie) => {
+            return movie.movieName.toLowerCase().includes(searchString.toLowerCase());
+        });
+        console.log(movie);
+        setNewMovies(movie);
     };
-
 
     console.log(newMovies);
     return (
@@ -52,7 +50,7 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
                                     {header !== "Add New Movie" ? (
                                         header
                                     ) : (
-                                        <NavLink onClick={flagToFalse} to='/addMovie'>{header}</NavLink>
+                                        <NavLink onClick={setFlag} to='/addMovie'>{header}</NavLink>
                                     )}
                                 </th>
                             ))}
