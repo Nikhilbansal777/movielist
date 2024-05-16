@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 
 const AddMovieForm = ({ setMovies, movies }) => {
     const { selectedMovie, movieForEdit } = useContext(context);
-    const flag = useSelector((state)=>state.flag)
+    const flag = useSelector((state) => state.flag.flag)
+    console.log(flag);
     const navigate = useNavigate();
     const [formValues, setFormValue] = useState({
         movieName: "",

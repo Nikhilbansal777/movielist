@@ -5,10 +5,10 @@ import Body from "./body";
 import SideBar from "./sidebar";
 
 const BaseComp = () => {
-    const { setMovies } = useContext(context);
-    useEffect(() => {
-        getMovie(setMovies);
-    }, []);
+    // const { setMovies } = useContext(context);
+    // useEffect(() => {
+    //     getMovie(setMovies);
+    // }, []);
     return (<>
         <h1>All Movies</h1>
         <div className="category-container">

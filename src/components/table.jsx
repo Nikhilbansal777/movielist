@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { context } from "../App";
 import { updateFlag } from "../redux/reducers/todoReducer";
 import "../styles/table.css";
 import Search from "./searchMovie";
+import { deleteMovie } from "../redux/reducers/moviesReducer";
 
-const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
+const Table = ({ moviesList, formatDate }) => {
     const [tableHeaders] = useState(["Movie", "Date", "Actor", "Actress", "Director", "Rating", "Category", "Description", "Add New Movie"]);
-    const { movieForEdit, searchString } = useContext(context);
+    const { movieForEdit } = useContext(context);
+    const searchString = useSelector(state => state.search.searchString);
     const [newMovies, setNewMovies] = useState([]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,6 +24,10 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
     const setFlag = () => {
         dispatch(updateFlag(false));
     };
+    // const moviesList = useSelector((state) => state.movies.list);
+    // const status = useSelector((state) => state.movies.status);
+    // console.log(moviesList.length);
+
 
     useEffect(() => {
         filterMovies();
@@ -31,11 +37,13 @@ const Table = ({ moviesList, formatDate, handleDeleteMovie }) => {
         const movie = moviesList.filter((movie) => {
             return movie.movieName.toLowerCase().includes(searchString.toLowerCase());
         });
-        console.log(movie);
         setNewMovies(movie);
     };
+    const handleDeleteMovie = (id) => {
+        dispatch(deleteMovie(id));
+      };
+    
 
-    console.log(newMovies);
     return (
         <div className="container">
             <div className="coloumn">
