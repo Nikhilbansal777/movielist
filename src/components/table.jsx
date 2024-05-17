@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { context } from "../App";
+import { deleteMovie } from "../redux/reducers/moviesReducer";
 import { updateFlag } from "../redux/reducers/todoReducer";
 import "../styles/table.css";
 import Search from "./searchMovie";
-import { deleteMovie } from "../redux/reducers/moviesReducer";
 
 const Table = ({ moviesList, formatDate }) => {
     const [tableHeaders] = useState(["Movie", "Date", "Actor", "Actress", "Director", "Rating", "Category", "Description", "Add New Movie"]);
@@ -29,20 +29,23 @@ const Table = ({ moviesList, formatDate }) => {
     // console.log(moviesList.length);
 
 
-    useEffect(() => {
-        filterMovies();
-    }, [searchString, filterMovies]);
 
-    const filterMovies = () => {
-        const movie = moviesList.filter((movie) => {
-            return movie.movieName.toLowerCase().includes(searchString.toLowerCase());
-        });
-        setNewMovies(movie);
-    };
+
+    useEffect(() => {
+
+        const filterMovies = () => {
+            const movie = moviesList.filter((movie) => {
+                return movie.movieName.toLowerCase().includes(searchString.toLowerCase());
+            });
+            setNewMovies(movie);
+        };
+        filterMovies();
+    }, [searchString]);
+
     const handleDeleteMovie = (id) => {
         dispatch(deleteMovie(id));
-      };
-    
+    };
+
 
     return (
         <div className="container">

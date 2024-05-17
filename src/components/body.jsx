@@ -15,7 +15,6 @@ const Body = () => {
     }, [dispatch]);
 
     const moviess = useSelector((state) => state.movies.list);
-    const status = useSelector((state) => state.movies.status);
     console.log(moviess.length);
 
     return (<>
