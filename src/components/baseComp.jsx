@@ -1,5 +1,3 @@
-import { useContext, useEffect } from "react";
-import { context, getMovie } from "../App";
 import "../styles/baseComponent.css";
 import Body from "./body";
 import SideBar from "./sidebar";

@@ -14,7 +14,7 @@ const Category = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchCategoryMovies(item));
-    }, [dispatch]);
+    }, [dispatch, item]);
 
     const categoryMovies = useSelector(state => state.movies.categories);
     console.log(categoryMovies);

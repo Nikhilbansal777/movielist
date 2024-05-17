@@ -26,13 +26,13 @@ const AddMovieForm = ({ setMovies, movies }) => {
             const updatedFormValues = { ...formValues, ...selectedMovie };
             setFormValue(updatedFormValues);
         }
-    }, [selectedMovie]);
+    }, [selectedMovie, formValues]);
 
     useEffect(() => {
         return (() => {
             movieForEdit({});
         });
-    }, []);
+    }, [movieForEdit]);
 
     const [inputFields] = useState(
         [
@@ -89,7 +89,7 @@ const AddMovieForm = ({ setMovies, movies }) => {
                 });
             }
         }
-    }, [isSubmit, formErrors]);
+    }, [isSubmit, formErrors, flag, formValues, navigate, setMovies]);
 
     const handleSubmit = (e) => {
         e.preventDefault();

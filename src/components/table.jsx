@@ -31,7 +31,7 @@ const Table = ({ moviesList, formatDate }) => {
 
     useEffect(() => {
         filterMovies();
-    }, [searchString]);
+    }, [searchString, filterMovies]);
 
     const filterMovies = () => {
         const movie = moviesList.filter((movie) => {

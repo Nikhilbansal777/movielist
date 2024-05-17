@@ -8,7 +8,7 @@ import Table from "./table";
 const Body = () => {
     const dispatch = useDispatch();
     const { formatDate } = useContext(context);
-    const { data, error, isLoading, isSuccess } = useGetTodosQuery(); // Correct usage of the hook
+    const { data } = useGetTodosQuery(); // Correct usage of the hook
     console.log(data);
     useEffect(() => {
         dispatch(fetchMovies());
