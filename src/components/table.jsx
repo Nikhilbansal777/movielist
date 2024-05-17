@@ -32,7 +32,6 @@ const Table = ({ moviesList, formatDate }) => {
 
 
     useEffect(() => {
-
         const filterMovies = () => {
             const movie = moviesList.filter((movie) => {
                 return movie.movieName.toLowerCase().includes(searchString.toLowerCase());
@@ -40,7 +39,7 @@ const Table = ({ moviesList, formatDate }) => {
             setNewMovies(movie);
         };
         filterMovies();
-    }, [searchString]);
+    }, [searchString, moviesList]);
 
     const handleDeleteMovie = (id) => {
         dispatch(deleteMovie(id));
